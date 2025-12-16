@@ -45,7 +45,8 @@ data class Person(
 
 ```
 
-###2. The DAO (`PersonDao.kt`)The **Data Access Object (DAO)** defines how we interact with the database. We use interfaces instead of writing raw SQL queries manually for every operation.
+### 2. The DAO (`PersonDao.kt`)
+The **Data Access Object (DAO)** defines how we interact with the database. We use interfaces instead of writing raw SQL queries manually for every operation.
 
 * **`@Insert`:** Inserts a new row.
 * **`@Query`:** returns a `Flow<List<Person>>`. This is powerful because it emits a new list every time the database changes, allowing the UI to react instantly.
@@ -62,12 +63,14 @@ interface PersonDao {
 
 ```
 
-###3. The Database Singleton (`PersonDatabase.kt`)We use the **Singleton pattern** to create the database. This prevents having multiple expensive connections to the database open at the same time.
+### 3. The Database Singleton (`PersonDatabase.kt`)
+We use the **Singleton pattern** to create the database. This prevents having multiple expensive connections to the database open at the same time.
 
 * `@Database`: Lists all entities and the version number.
 * `getDatabase()`: Returns the single instance of the database, creating it if it doesn't exist yet.
 
-###4. Observing Data (`MainActivity.kt`)In the main activity, we observe the `Flow` from the DAO.
+### 4. Observing Data (`MainActivity.kt`)
+In the main activity, we observe the `Flow` from the DAO.
 
 * `collect`:  A coroutine collects the stream of data. whenever a new person is added, `updateTable` is automatically called to refresh the UI.
 
@@ -82,7 +85,7 @@ lifecycleScope.launch {
 
 ---
 
-##📱 How to Run
+## 📱 How to Run
 1. **Clone the repository** and open it in **Android Studio**.
 2. **Sync Gradle** to ensure Room dependencies are downloaded.
 3. **Run the app** on an emulator or physical device.
@@ -95,7 +98,7 @@ lifecycleScope.launch {
 
 ---
 
-##⚠️ Troubleshooting
+## ⚠️ Troubleshooting
 * **"Unresolved reference: Room"**: Make sure your `build.gradle` file includes the necessary Room dependencies and the `ksp` (or `kapt`) plugin.
 * **Schema Build Errors**: If you change the `Person` class (e.g., add a field) after running the app, you must increment the `version` number in `PersonDatabase.kt` or uninstall the app from the emulator to reset the database.
 
